@@ -4,29 +4,41 @@
   <meta charset="UTF-8">
   <title>Video Protegido</title>
   <style>
-    #video { display: none; margin-top: 20px; }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+    iframe { margin-top: 30px; display: none; }
   </style>
 </head>
 <body>
-  <h2>Introduce tu correo para ver el video</h2>
-  <input type="email" id="correo" placeholder="correo@ejemplo.com">
-  <button onclick="mostrarVideo()">Ver video</button>
 
-  <div id="video">
-    <h3>Gracias, aquí está el video:</h3>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID"
-      frameborder="0" allowfullscreen></iframe>
-  </div>
+  <h2>Introduce tu correo para ver el video</h2>
+
+  <form action="https://formspree.io/f/tu_codigo" method="POST" onsubmit="mostrarVideo(event)">
+    <input type="email" name="email" placeholder="Tu correo" required>
+    <button type="submit">Ver video</button>
+  </form>
+
+  <iframe id="video" width="560" height="315"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    frameborder="0" allowfullscreen></iframe>
 
   <script>
-    function mostrarVideo() {
-      const correo = document.getElementById("correo").value;
-      if (correo.includes("@") && correo.includes(".")) {
-        document.getElementById("video").style.display = "block";
-      } else {
-        alert("Por favor, introduce un correo válido.");
-      }
+    function mostrarVideo(e) {
+      e.preventDefault(); // Evita que el formulario recargue la página
+      const form = e.target;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = 'none';
+          document.getElementById('video').style.display = 'block';
+        } else {
+          alert("Hubo un error al enviar el correo.");
+        }
+      });
     }
   </script>
+
 </body>
 </html>
