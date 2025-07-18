@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Protegido</title>
+  <style>
+    #video { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Introduce tu correo para ver el video</h2>
+  <input type="email" id="correo" placeholder="correo@ejemplo.com">
+  <button onclick="mostrarVideo()">Ver video</button>
+
+  <div id="video">
+    <h3>Gracias, aquí está el video:</h3>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID"
+      frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function mostrarVideo() {
+      const correo = document.getElementById("correo").value;
+      if (correo.includes("@") && correo.includes(".")) {
+        document.getElementById("video").style.display = "block";
+      } else {
+        alert("Por favor, introduce un correo válido.");
+      }
+    }
+  </script>
+</body>
+</html>
